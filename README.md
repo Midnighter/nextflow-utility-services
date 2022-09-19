@@ -2,9 +2,10 @@
 
 A collection of custom Groovy service classes intended for use in nextflow pipelines.
 
-| Service                        | Demo                                        | Description                                 |
-| ------------------------------ | ------------------------------------------- | ------------------------------------------- |
-| `lib/FormattingService.groovy` | `nextflow run formatting.nf -dump-channels` | Format objects as JSON for pretty printing. |
+| Service                           | Demo                                        | Description                                                                                             |
+| --------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `lib/FormattingService.groovy`    | `nextflow run formatting.nf -dump-channels` | Format objects as JSON for pretty printing.                                                             |
+| `lib/FileTypeQueryService.groovy` | `nextflow run file_type_query.nf`           | Query file path objects for compression and common sequencing data types. Can be extended indefinitely. |
 
 ## Usage
 
