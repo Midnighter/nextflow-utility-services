@@ -2,10 +2,11 @@
 
 A collection of custom Groovy service classes intended for use in nextflow pipelines.
 
-| Service                           | Demo                                        | Description                                                                                             |
-| --------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `lib/FormattingService.groovy`    | `nextflow run formatting.nf -dump-channels` | Format objects as JSON for pretty printing.                                                             |
-| `lib/FileTypeQueryService.groovy` | `nextflow run file_type_query.nf`           | Query file path objects for compression and common sequencing data types. Can be extended indefinitely. |
+| Service                             | Demo                                        | Description                                                                                              |
+| ----------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `lib/FormattingService.groovy`      | `nextflow run formatting.nf -dump-channels` | Format objects as JSON for pretty printing.                                                              |
+| `lib/FileTypeQueryService.groovy`   | `nextflow run file_type_query.nf`           | Query file path objects for compression and common sequencing data types. Can be extended indefinitely.  |
+| `lib/CustomChannelOperators.groovy` | `nextflow run join_on_keys.nf`              | Extract values via given keys from maps in two different channels and join those channels on the values. |
 
 ## Usage
 
