@@ -2,13 +2,13 @@
 
 A collection of custom Groovy service classes intended for use in nextflow pipelines.
 
-| Service                                                                    | Demo                                        | Description                                                                                              |
-| -------------------------------------------------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `lib/FormattingService.groovy`                                             | `nextflow run formatting.nf -dump-channels` | Format objects as JSON for pretty printing.                                                              |
-| `lib/FileTypeQueryService.groovy`                                          | `nextflow run file_type_query.nf`           | Query file path objects for compression and common sequencing data types. Can be extended indefinitely.  |
-| `lib/CustomChannelOperators.groovy`                                        | `nextflow run join_on_keys.nf`              | Extract values via given keys from maps in two different channels and join those channels on the values. |
-| `lib/HTTPRequestsService.groovy`<br/>`lib/HTTPResponse.groovy`             | `nextflow run http_requests.nf`             | Perform HTTP requests via a simplified API. At the moment only POST is supported.                        |
-| `lib/SlackMessagingService.groovy`<br/>`assets/pipelineStatusMessage.json` | `nextflow run slack_messaging.nf`           | Post a pipeline status message to Slack using an incoming webhook URL.                                   |
+| Service                                                                                                                                             | Demo                                        | Description                                                                                              |
+| --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| [`lib/FormattingService.groovy`](lib/FormattingService.groovy)                                                                                      | `nextflow run formatting.nf -dump-channels` | Format objects as JSON for pretty printing.                                                              |
+| [`lib/FileTypeQueryService.groovy`](lib/FileTypeQueryService.groovy)                                                                                | `nextflow run file_type_query.nf`           | Query file path objects for compression and common sequencing data types. Can be extended indefinitely.  |
+| [`lib/CustomChannelOperators.groovy`](lib/CustomChannelOperators.groovy)                                                                            | `nextflow run join_on_keys.nf`              | Extract values via given keys from maps in two different channels and join those channels on the values. |
+| [`lib/HTTPRequestsService.groovy`](lib/HTTPRequestsService.groovy)<br/>[`lib/HTTPResponse.groovy`](lib/HTTPResponse.groovy)                         | `nextflow run http_requests.nf`             | Perform HTTP requests via a simplified API. At the moment only POST is supported.                        |
+| [`lib/SlackMessagingService.groovy`](lib/SlackMessagingService.groovy)<br/>[`assets/pipelineStatusMessage.json`](assets/pipelineStatusMessage.json) | `nextflow run slack_messaging.nf`           | Post a pipeline status message to Slack using an incoming webhook URL.                                   |
 
 ## Usage
 
