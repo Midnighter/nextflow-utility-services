@@ -26,6 +26,7 @@ import static groovy.json.JsonOutput.prettyPrint
 import groovy.json.JsonGenerator
 import java.nio.file.Path
 import java.time.OffsetDateTime
+import nextflow.util.Duration
 
 /**
  * Define a service that formats objects for printing.
@@ -40,6 +41,7 @@ class FormattingService {
     protected static JsonGenerator generator = new JsonGenerator.Options()
         .dateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
         .addConverter(OffsetDateTime) { OffsetDateTime offset -> offset.toString() }
+        .addConverter(Duration) { Duration duration -> duration.toString() }
         .addConverter(Path) { Path filename -> filename.toString() }
         .build()
 
