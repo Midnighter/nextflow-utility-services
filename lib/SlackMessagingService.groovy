@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-import java.io.File
-
 /**
  * Define a service for posting pipeline status messages to Slack.
  *
