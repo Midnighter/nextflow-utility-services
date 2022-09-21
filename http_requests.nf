@@ -36,7 +36,17 @@ workflow.onComplete {
     )
     nextflow.log.info(
         FormattingService.prettyFormat(
+            HTTPRequestsService.post('https://httpbin.org/post', 'Authorization': 'Bearer Foo')
+        )
+    )
+    nextflow.log.info(
+        FormattingService.prettyFormat(
             HTTPRequestsService.post('https://httpbin.org/post', '{"hello": "world"}')
+        )
+    )
+    nextflow.log.info(
+        FormattingService.prettyFormat(
+            HTTPRequestsService.post('https://httpbin.org/post', '{"hello": "world"}', 'Authorization': 'Bearer Foo')
         )
     )
     nextflow.log.error(

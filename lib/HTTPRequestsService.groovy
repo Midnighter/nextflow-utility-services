@@ -40,10 +40,10 @@ class HTTPRequestsService {
     */
     static HTTPResponse post(
         String location,
-        String body = null,
-        String contentType = 'application/json',
-        String accept = 'application/json',
-        Map headers = [:]
+        String body,
+        String contentType,
+        String accept,
+        Map headers
     ) {
         HttpURLConnection request = openRequest(location)
 
@@ -62,6 +62,25 @@ class HTTPRequestsService {
         // Perform actual POST request.
         request.connect()
         return new HTTPResponse(request)
+    }
+
+    static HTTPResponse post(
+        String location,
+        String body = null,
+        String contentType = 'application/json',
+        String accept = 'application/json'
+    ) {
+        return post(location, body, contentType, accept, [:])
+    }
+
+    static HTTPResponse post(
+        Map headers,
+        String location,
+        String body = null,
+        String contentType = 'application/json',
+        String accept = 'application/json'
+    ) {
+        return post(location, body, contentType, accept, headers)
     }
 
     protected static HttpURLConnection openRequest(String location) {
