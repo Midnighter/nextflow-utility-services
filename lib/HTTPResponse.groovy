@@ -23,6 +23,8 @@
  */
 
 import groovy.transform.MapConstructor
+import groovy.transform.Memoized
+import groovy.json.JsonSlurper
 
 /**
  * Define a response data object.
@@ -45,6 +47,9 @@ class HTTPResponse {
         }
         // Drop the `null` key that contains the response code and message.
         responseHeaders.remove(null)
+        this.statusCode = request.responseCode
+        this.contentType = request.contentType
+        this.headers = responseHeaders
         // Try to parse response message.
         // Could also look at content length before trying that.
         try {
@@ -52,9 +57,13 @@ class HTTPResponse {
         } catch (IOException error) {
             this.text = request.errorStream?.text
         }
-        this.statusCode = request.responseCode
-        this.contentType = request.contentType
-        this.headers = responseHeaders
+    }
+
+    @Memoized
+    Map getJson() {
+        if (this.text && this.contentType == 'application/json') {
+            return new JsonSlurper().parseText(this.text)
+        }
     }
 
 }
