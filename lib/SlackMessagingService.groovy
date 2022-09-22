@@ -89,7 +89,7 @@ class SlackMessagingService {
     */
     protected static Map getPipelineSummary(
         nextflow.script.WorkflowMetadata workflow,
-        String[] keys = [
+        List<String> keys = [
             'start', 'complete', 'duration', 'success', 'scriptFile', 'scriptId',
             'repository', 'commitId', 'revision', 'runName', 'commandLine'
         ]
@@ -105,7 +105,7 @@ class SlackMessagingService {
     */
     protected static Map getNextflowSummary(
         nextflow.script.WorkflowMetadata workflow,
-        String[] keys = [
+        List<String> keys = [
             'version', 'build', 'timestamp'
         ]
     ) {
@@ -120,7 +120,7 @@ class SlackMessagingService {
     */
     protected static Map getManifestSummary(
         nextflow.script.WorkflowMetadata workflow,
-        String[] keys = [
+        List<String> keys = [
             'name', 'version', 'homePage', 'author', 'doi'
         ]
     ) {
