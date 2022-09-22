@@ -59,33 +59,44 @@ process RIGHT {
     """
 }
 
-process COMPARE {
-    input:
-    tuple val(meta), val(id), path(files)
-
-    output:
-    tuple val(meta), val(id), path(files)
-
-    script:
-    """
-    cat ${files}
-    echo "${id}"
-    sleep 0.2
-    """
-}
-
 /*******************************************************************************
  * Define main workflow
  ******************************************************************************/
 
 workflow {
-    def ch_param = Channel.of(1..20)
+    def ch_param = Channel.of(1..3)
         .map { [id: it, prefix: "${it}"] }
 
-    LEFT(ch_param)
-    RIGHT(ch_param)
+    LEFT(ch_param).view { tuple -> "Left => ${tuple}" }
+    RIGHT(ch_param).view { tuple -> "Right => ${tuple}" }
 
-    def ch_joined = CustomChannelOperators.joinOnKeys(LEFT.out.result, RIGHT.out.result, 'id', failOnMismatch: true)
+    CustomChannelOperators.joinOnKeys(
+        LEFT.out.result,
+        RIGHT.out.result,
+        'id'
+    )
+        .view  { tuple -> "Joined(id) =>\n${tuple}" }
 
-    COMPARE(ch_joined)
+    CustomChannelOperators.joinOnKeys(
+        LEFT.out.result,
+        RIGHT.out.result,
+        'id',
+        failOnMismatch: true
+    )
+        .view  { tuple -> "Joined(id, named arguments) =>\n${tuple}" }
+
+    CustomChannelOperators.joinOnKeys(
+        LEFT.out.result,
+        RIGHT.out.result,
+        ['id', 'prefix']
+    )
+        .view  { tuple -> "Joined([id, prefix]) =>\n${tuple}" }
+
+    CustomChannelOperators.joinOnKeys(
+        LEFT.out.result,
+        RIGHT.out.result,
+        ['id', 'prefix'],
+        failOnMismatch: true
+    )
+        .view  { tuple -> "Joined([id, prefix], named arguments) =>\n${tuple}" }
 }

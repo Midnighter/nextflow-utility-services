@@ -47,15 +47,13 @@ class CustomChannelOperators {
      *      followed by all elements of the right channel except for the map.
      */
     static Object joinOnKeys(
-            Map joinArgs = [:],
             groovyx.gpars.dataflow.DataflowBroadcast left,
             groovyx.gpars.dataflow.DataflowBroadcast right,
-            key,
-            int leftBy = 0,
-            int rightBy = 0
+            List<String> keys,
+            Integer leftBy,
+            Integer rightBy,
+            Map joinArgs
     ) {
-        List keys = key instanceof List ? key : [ key ]
-
         // Extract desired keys from the left map, located at `leftBy`, and prepend them.
         groovyx.gpars.dataflow.DataflowBroadcast newLeft = left.map { tuple ->
             tuple[leftBy].subMap(keys).values() + tuple
@@ -76,6 +74,48 @@ class CustomChannelOperators {
         return newLeft.join(joinArgs, newRight).map { tuple ->
             tuple[keys.size()..<tuple.size()]
         }
+    }
+
+    static Object joinOnKeys(
+            Map joinArgs,
+            groovyx.gpars.dataflow.DataflowBroadcast left,
+            groovyx.gpars.dataflow.DataflowBroadcast right,
+            String key,
+            Integer leftBy = 0,
+            Integer rightBy = 0
+    ) {
+        return joinOnKeys(left, right, [key], leftBy, rightBy, joinArgs)
+    }
+
+    static Object joinOnKeys(
+            groovyx.gpars.dataflow.DataflowBroadcast left,
+            groovyx.gpars.dataflow.DataflowBroadcast right,
+            String key,
+            Integer leftBy = 0,
+            Integer rightBy = 0
+    ) {
+        return joinOnKeys(left, right, [key], leftBy, rightBy, [:])
+    }
+
+    static Object joinOnKeys(
+            Map joinArgs,
+            groovyx.gpars.dataflow.DataflowBroadcast left,
+            groovyx.gpars.dataflow.DataflowBroadcast right,
+            List<String> keys,
+            Integer leftBy = 0,
+            Integer rightBy = 0
+    ) {
+        return joinOnKeys(left, right, keys, leftBy, rightBy, joinArgs)
+    }
+
+    static Object joinOnKeys(
+            groovyx.gpars.dataflow.DataflowBroadcast left,
+            groovyx.gpars.dataflow.DataflowBroadcast right,
+            List<String> keys,
+            Integer leftBy = 0,
+            Integer rightBy = 0
+    ) {
+        return joinOnKeys(left, right, keys, leftBy, rightBy, [:])
     }
 
 }
