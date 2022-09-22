@@ -2,27 +2,27 @@
   "text": "${manifest.name ?: '<missing name>'} ${manifest.version ?: '<missing version>'} [${runName}] ${success ? 'completed successfully' : 'failed'}.",
   "blocks": [
     {
-			"type": "header",
-			"text": {
-				"type": "plain_text",
-				"text": "${manifest.name ?: '<missing name>'} [${runName}]"
-			}
-		},
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "${manifest.name ?: '<missing name>'} [${runName}]"
+      }
+    },
     {
-			"type": "section",
-			"fields": [
-				{
-					"type": "mrkdwn",
-					"text": "*Pipeline version*\n*Revision*\n*Commit Hash*"
-				},
-				{
-					"type": "mrkdwn",
-					"text": "${manifest.version ?: ''}\n${revision ?: ''}\n${commitId ?: ''}"
-				}
-			]
-		},
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Pipeline version*\n*Revision*\n*Commit Hash*"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "${manifest.version ?: ''}\n${revision ?: ''}\n${commitId ?: ''}"
+        }
+      ]
+    },
     {
-			"type": "section",
+      "type": "section",
       "fields": [
         {
           "type": "mrkdwn",
@@ -35,49 +35,49 @@
       ],
       "accessory": {
           "type": "button",
-					"text": {
-						"type": "plain_text",
-						"text": "${success ? 'Success' : 'Failure'}"
-					},
+          "text": {
+            "type": "plain_text",
+            "text": "${success ? 'Success' : 'Failure'}"
+          },
           "style": "${success ? 'primary' : 'danger'}",
-					"value": "click_status"
+          "value": "click_status"
         }
-		},
+    },
     {
-			"type": "section",
+      "type": "section",
       "text": {
           "type": "mrkdwn",
           "text": "*Nextflow command:*\n```\n${commandLine}\n```"
       }
-		},
+    },
     {
       "type": "divider"
     },
     {
-			"type": "section",
-			"fields": [
-				{
-					"type": "mrkdwn",
-					"text": "*Nextflow version*\n"
-				},
-				{
-					"type": "mrkdwn",
-					"text": "${nextflow.version.major}.${nextflow.version.minor}.${nextflow.version.patch}, build ${nextflow.build} (${nextflow.timestamp})"
-				}
-			]
-		},
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Nextflow version*\n"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "${nextflow.version.major}.${nextflow.version.minor}.${nextflow.version.patch}, build ${nextflow.build} (${nextflow.timestamp})"
+        }
+      ]
+    },
     {
       "type": "divider"
     },
     {
-			"type": "header",
-			"text": {
-				"type": "plain_text",
-				"text": "Manifest"
-			}
-		},
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Manifest"
+      }
+    },
     {
-			"type": "section",
+      "type": "section",
       "fields": [
         {
           "type": "mrkdwn",
@@ -88,6 +88,6 @@
           "text": "<% out << manifest.keySet().sort().collect { key -> manifest[key] ?: '' }.join('\\n') %>"
         }
       ]
-		}
+    }
   ]
 }
