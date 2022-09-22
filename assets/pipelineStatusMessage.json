@@ -1,12 +1,25 @@
 {
-  "text": "${manifest.name ?: '<missing name>'} ${manifest.version ?: '<missing version>'} [${runName}] <% success ? 'completed successfully' : 'failed' %>.",
+  "text": "${manifest.name ?: '<missing name>'} ${manifest.version ?: '<missing version>'} [${runName}] ${success ? 'completed successfully' : 'failed'}.",
   "blocks": [
     {
 			"type": "header",
 			"text": {
 				"type": "plain_text",
-				"text": "${manifest.name ?: '<missing name>'} ${manifest.version ?: '<missing version>'} [${runName}]"
+				"text": "${manifest.name ?: '<missing name>'} [${runName}]"
 			}
+		},
+    {
+			"type": "section",
+			"fields": [
+				{
+					"type": "mrkdwn",
+					"text": "*Pipeline version*\n*Revision*\n*Commit Hash*"
+				},
+				{
+					"type": "mrkdwn",
+					"text": "${manifest.version ?: ''}\n${revision ?: ''}\n${commitId ?: ''}"
+				}
+			]
 		},
     {
 			"type": "section",
@@ -72,7 +85,7 @@
         },
         {
           "type": "mrkdwn",
-          "text": "<% out << manifest.keySet().sort().collect { key -> manifest[key] }.join('\\n') %>"
+          "text": "<% out << manifest.keySet().sort().collect { key -> manifest[key] ?: '' }.join('\\n') %>"
         }
       ]
 		}
