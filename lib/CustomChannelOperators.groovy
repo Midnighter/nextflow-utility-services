@@ -57,14 +57,14 @@ class CustomChannelOperators {
             Map joinArgs
     ) {
         // Extract desired keys from the left map, located at `leftBy`, and prepend them.
-        groovyx.gpars.dataflow.DataflowBroadcast newLeft = left.map { tuple ->
-            tuple[leftBy].subMap(keys).values() + tuple
+        DataflowBroadcast newLeft = left.map { tuple ->
+            extractKeys(tuple, keys, leftBy) + tuple
         }
 
         // Extract desired keys from the right map, located at `rightBy`, and prepend them.
         // Also drop the map itself from the right.
-        groovyx.gpars.dataflow.DataflowBroadcast newRight = right.map { tuple ->
-            tuple[rightBy].subMap(keys).values() +
+        DataflowBroadcast newRight = right.map { tuple ->
+            extractKeys(tuple, keys, rightBy) +
                 tuple[0..<rightBy] +
                 tuple[(rightBy + 1)..<tuple.size()]
         }
@@ -116,6 +116,29 @@ class CustomChannelOperators {
             Integer rightBy = 0
     ) {
         return joinOnKeys(left, right, keys, leftBy, rightBy, [:])
+    }
+
+    /**
+     * Extract values from a map at given position with given keys.
+     *
+     * @param tuple A tuple (`List`) channel element.
+     * @param keys A list of strings denoting keys in the map.
+     * @param index The position of the map in the tuple.
+     * @return The list of values extracted from the map.
+     */
+    private static List extractKeys(List tuple, List<String> keys, Integer index) {
+        return tuple[index].subMap(keys).values().toList()
+    }
+
+    /**
+     * Drop elements corresponding to the number of keys from the head of the list.
+     *
+     * @param tuple A tuple (`List`) channel element.
+     * @param keys A list of strings denoting keys in the map.
+     * @return The given list but without the prepended values.
+     */
+    private static List dropKeys(List tuple, List<String> keys) {
+        return tuple.drop(keys.size())
     }
 
 }
