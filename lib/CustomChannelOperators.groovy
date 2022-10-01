@@ -64,9 +64,7 @@ class CustomChannelOperators {
         // Extract desired keys from the right map, located at `rightBy`, and prepend them.
         // Also drop the map itself from the right.
         DataflowBroadcast newRight = right.map { tuple ->
-            extractKeys(tuple, keys, rightBy) +
-                tuple[0..<rightBy] +
-                tuple[(rightBy + 1)..<tuple.size()]
+            extractKeys(tuple, keys, rightBy) + removeMap(tuple, rightBy)
         }
 
         // Set the positions to join on explicitly.
@@ -128,6 +126,17 @@ class CustomChannelOperators {
      */
     private static List extractKeys(List tuple, List<String> keys, Integer index) {
         return tuple[index].subMap(keys).values().toList()
+    }
+
+    /**
+     * Return a new tuple without the map in it.
+     *
+     * @param tuple A tuple (`List`) channel element.
+     * @param index The position of the map in the tuple.
+     * @return A copy of the list without the map.
+     */
+    private static List removeMap(List tuple, Integer index) {
+        return tuple[0..<index] + tuple[(index + 1)..<tuple.size()]
     }
 
     /**
