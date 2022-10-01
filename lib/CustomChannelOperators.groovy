@@ -39,12 +39,12 @@ class CustomChannelOperators {
      * Typically, the maps to join by are in the first position of the tuples.
      * Please read https://www.nextflow.io/docs/latest/operator.html#join carefully.
      *
-     * @param args A map of keyword arguments that is passed on to the nextflow join call.
      * @param left The left-hand side channel in the join.
      * @param right The right-hand side channel in the join.
      * @param key A string or list of strings providing the map keys to compare.
      * @param leftBy The position of the map in the left channel.
      * @param rightBy The position of the map in the right channel.
+     * @param joinArgs A map of keyword arguments that is passed on to the nextflow join call.
      * @return The joined channels with the map in the original position of the left channel,
      *      followed by all elements of the right channel except for the map.
      */
