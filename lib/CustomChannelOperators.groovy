@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+import groovyx.gpars.dataflow.DataflowBroadcast
+
 /**
  * Provide a collection of custom channel operators that go beyond the nextflow default.
  *
@@ -46,9 +48,9 @@ class CustomChannelOperators {
      * @return The joined channels with the map in the original position of the left channel,
      *      followed by all elements of the right channel except for the map.
      */
-    static Object joinOnKeys(
-            groovyx.gpars.dataflow.DataflowBroadcast left,
-            groovyx.gpars.dataflow.DataflowBroadcast right,
+    static DataflowBroadcast joinOnKeys(
+            DataflowBroadcast left,
+            DataflowBroadcast right,
             List<String> keys,
             Integer leftBy,
             Integer rightBy,
@@ -71,15 +73,13 @@ class CustomChannelOperators {
         joinArgs.by = 0..<keys.size()
 
         // Apply the join channel operator to the channels and finally drop the keys used for joining tuples.
-        return newLeft.join(joinArgs, newRight).map { tuple ->
-            tuple[keys.size()..<tuple.size()]
-        }
+        return newLeft.join(joinArgs, newRight).map { tuple -> dropKeys(tuple, keys) }
     }
 
-    static Object joinOnKeys(
+    static DataflowBroadcast joinOnKeys(
             Map joinArgs,
-            groovyx.gpars.dataflow.DataflowBroadcast left,
-            groovyx.gpars.dataflow.DataflowBroadcast right,
+            DataflowBroadcast left,
+            DataflowBroadcast right,
             String key,
             Integer leftBy = 0,
             Integer rightBy = 0
@@ -87,9 +87,9 @@ class CustomChannelOperators {
         return joinOnKeys(left, right, [key], leftBy, rightBy, joinArgs)
     }
 
-    static Object joinOnKeys(
-            groovyx.gpars.dataflow.DataflowBroadcast left,
-            groovyx.gpars.dataflow.DataflowBroadcast right,
+    static DataflowBroadcast joinOnKeys(
+            DataflowBroadcast left,
+            DataflowBroadcast right,
             String key,
             Integer leftBy = 0,
             Integer rightBy = 0
@@ -97,10 +97,10 @@ class CustomChannelOperators {
         return joinOnKeys(left, right, [key], leftBy, rightBy, [:])
     }
 
-    static Object joinOnKeys(
+    static DataflowBroadcast joinOnKeys(
             Map joinArgs,
-            groovyx.gpars.dataflow.DataflowBroadcast left,
-            groovyx.gpars.dataflow.DataflowBroadcast right,
+            DataflowBroadcast left,
+            DataflowBroadcast right,
             List<String> keys,
             Integer leftBy = 0,
             Integer rightBy = 0
@@ -108,9 +108,9 @@ class CustomChannelOperators {
         return joinOnKeys(left, right, keys, leftBy, rightBy, joinArgs)
     }
 
-    static Object joinOnKeys(
-            groovyx.gpars.dataflow.DataflowBroadcast left,
-            groovyx.gpars.dataflow.DataflowBroadcast right,
+    static DataflowBroadcast joinOnKeys(
+            DataflowBroadcast left,
+            DataflowBroadcast right,
             List<String> keys,
             Integer leftBy = 0,
             Integer rightBy = 0
