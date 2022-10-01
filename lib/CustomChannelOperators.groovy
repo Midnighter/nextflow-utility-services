@@ -41,7 +41,7 @@ class CustomChannelOperators {
      *
      * @param left The left-hand side channel in the join.
      * @param right The right-hand side channel in the join.
-     * @param key A string or list of strings providing the map keys to compare.
+     * @param keys A list of strings providing the map keys to compare.
      * @param leftBy The position of the map in the left channel.
      * @param rightBy The position of the map in the right channel.
      * @param joinArgs A map of keyword arguments that is passed on to the nextflow join call.
