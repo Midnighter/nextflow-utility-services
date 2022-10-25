@@ -23,6 +23,7 @@
  */
 
 import groovyx.gpars.dataflow.DataflowBroadcast
+import nextflow.script.ChannelOut
 
 /**
  * Provide a collection of custom channel operators that go beyond the nextflow default.
@@ -114,6 +115,87 @@ class CustomChannelOperators {
             Integer rightBy = 0
     ) {
         return joinOnKeys(left, right, keys, leftBy, rightBy, [:])
+    }
+
+    /**
+     * Group elements in a channel using keys from a map.
+     *
+     * The channel elements are assumed to be tuples whose size is at least two.
+     * Typically, the map to group by is in the first position of the tuple.
+     * Please read https://www.nextflow.io/docs/latest/operator.html#grouptuple carefully.
+     *
+     * @param channel The right-hand side channel in the join.
+     * @param keys A list of strings providing the map keys to compare.
+     * @param index The position of the map in the channel.
+     * @param groupArgs A map of keyword arguments that is passed on to the nextflow `groupTuple` call.
+     *    Sorting results is not allowed.
+     * @return The grouped channel output.
+     */
+    static DataflowBroadcast groupTupleOnKeys(
+            DataflowBroadcast channel,
+            List<String> keys,
+            Integer index,
+            Map groupArgs
+    ) {
+        //extractKeys(tuple, keys, index) + removeMap(tuple)
+        //extractKeys(tuple, keys, index) + tuple[index..index]
+        ChannelOut splitChannel = channel.multiMap { tuple ->
+            group: tuple
+        }
+        //
+        // Set the positions to group by explicitly.
+        // groupArgs.by = 0..<keys.size()
+        //
+        // Disallow sorting.
+        // groupArgs.sort = false
+        //
+        // Set uniqueMaps = [] as Set
+        //
+        // def uniqueMapsChannel = splitChannel.map.unique { tuple ->
+        // Tuple checkKeys = new Tuple(*tuple.take(keys.size()))
+        // boolean result = uniqueMaps.contains(checkKeys)
+        // uniqueMaps.add(checkKeys)
+        // return result
+        // }
+        //
+        // return uniqueMapsChannel.join(splitChannel.group.groupTuple(groupArgs), by: 0..<keys.size())
+        // .map { tuple -> dropKeys(tuple, keys) }
+        // return channel.map { tuple -> extractKeys(tuple, keys, index) + removeMap(tuple, index) }
+        return splitChannel.group
+    }
+
+    static DataflowBroadcast groupTupleOnKeys(
+            Map groupArgs,
+            DataflowBroadcast channel,
+            String key,
+            Integer index = 0
+    ) {
+        return groupTupleOnKeys(channel, [key], index, groupArgs)
+    }
+
+    static DataflowBroadcast groupTupleOnKeys(
+            DataflowBroadcast channel,
+            String key,
+            Integer index = 0
+    ) {
+        return groupTupleOnKeys(channel, [key], index, [:])
+    }
+
+    static DataflowBroadcast groupTupleOnKeys(
+            Map groupArgs,
+            DataflowBroadcast channel,
+            List<String> keys,
+            Integer index = 0
+    ) {
+        return groupTupleOnKeys(channel, keys, index, groupArgs)
+    }
+
+    static DataflowBroadcast groupTupleOnKeys(
+            DataflowBroadcast channel,
+            List<String> keys,
+            Integer index = 0
+    ) {
+        return groupTupleOnKeys(channel, keys, index, [:])
     }
 
     /**
